@@ -1,4 +1,5 @@
 using System.Text;
+using ccm.api.Helper;
 using ccm.api.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +22,8 @@ BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String))
 //
 var dbSettings = builder.Configuration.GetSection(nameof(DBSettings)).Get<DBSettings>();
 var apiSettings = builder.Configuration.GetSection(nameof(ApiSettings)).Get<ApiSettings>();
+
+
 
 //
 // Setting up the connection string
@@ -61,7 +64,6 @@ builder.Services.AddSingleton(apiSettings);
 //
 // builder.Services.AddSingleton<IUserRepo, UserRepo>();
 // builder.Services.AddSingleton<IBrandRepo,BrandRepo>();
-
 
 // Add services to the container.
 
@@ -117,4 +119,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.MapControllers();
+SeedDB();
 app.Run();
+
+
+void SeedDB()
+{
+    DBSeeder Seeder = new DBSeeder(new MongoClient(dbSettings.ConnString),dbSettings,apiSettings);
+    try 
+    {
+        Seeder.SetupSystemAdmin();
+        Seeder.SetupUserTypes();
+    }catch(Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }finally
+    {
+        Seeder.Dispose();
+    }
+}

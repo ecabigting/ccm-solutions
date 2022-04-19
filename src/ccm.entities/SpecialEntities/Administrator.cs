@@ -13,5 +13,6 @@ namespace ccm.entities.SpecialEntities
         [Required(ErrorMessage = "Field is Required!")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Invalid Email!")]
         public string Email {get;set;}
+        public DateTimeOffset PasswordExpirationDate {get;set;}
     }
 }
