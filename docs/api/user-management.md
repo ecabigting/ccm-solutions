@@ -45,3 +45,18 @@ The following are the requirements for user management system
             - Must not contain the ___admin name___ .
             - Password can only be valid for 30days
             - Password must not be a repeat of the last three passwords.
+
+    ### User Types Mandatory Fields
+    - __Name__ - type ___string___
+        - Must be unique.
+        - Must be at least 4 characters long.
+    - __Description__ - type ___string___
+        - A good definition of the user type
+    - __CreatedBy__ - type ___Guid___
+        - Cannot be null, must be linked to a valid `Admin` account 
+    - __CreatedDate__ - type ___datetime___
+        - Cannot be null
+    - __LastEditedBy__ - type ___Guid___
+        - Cannot be null, must be linked to a valid `Admin` account
+    - __LastEditedDate__ - type ___datetime___
+        - Cannot be null
