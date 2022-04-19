@@ -10,11 +10,6 @@ namespace ccm.api.Helper
 {
     public class DBSeeder : IDisposable
     {
-        // Other managed resource this class uses.
-        private Component component = new Component();
-        // Track whether Dispose has been called.
-        private bool disposed = false;
-        
         private ApiSettings Settings;
         private readonly IMongoCollection<Administrator> administratorCollection;
         private readonly IMongoCollection<User> userCollection;
@@ -176,6 +171,10 @@ namespace ccm.api.Helper
         * Read here: https://docs.microsoft.com/en-us/dotnet/api/system.idisposable?redirectedfrom=MSDN&view=net-6.0
         *
         */
+        // Other managed resource this class uses.
+        private Component component = new Component();
+        // Track whether Dispose has been called.
+        private bool disposed = false;
         public void Dispose()
         {
             Dispose(disposing: true);
