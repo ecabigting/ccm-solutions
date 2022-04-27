@@ -1,8 +1,9 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ccm.entities.Entities
+namespace ccm.entities.Entities.User
 {
-    public class UserTypes : CommonEntity
+    public class UserTypes : Common
     {
         [Required(ErrorMessage = "Name is required!")]
         public string Name {get;set;}

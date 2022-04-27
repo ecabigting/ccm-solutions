@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ccm.entities.Entities
 {
-    public class CommonEntity
+    public class Common
     {
         [Required]
         public Guid Id { get; set; }

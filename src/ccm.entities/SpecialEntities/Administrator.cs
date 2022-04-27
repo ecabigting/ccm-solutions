@@ -3,7 +3,7 @@ using ccm.entities.Entities;
 
 namespace ccm.entities.SpecialEntities
 {
-    public class Administrator : CommonEntity
+    public class Administrator : Common
     {       
         [Required(ErrorMessage = "Field is Required!")]
         public string Username {get;set;}
