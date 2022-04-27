@@ -69,6 +69,7 @@ builder.Services.AddSingleton(apiSettings);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //
 // Add Swagger Options 

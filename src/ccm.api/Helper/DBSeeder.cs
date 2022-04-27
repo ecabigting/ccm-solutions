@@ -5,6 +5,7 @@ using ccm.entities.SpecialEntities;
 using MongoDB.Driver;
 using System.Text.Json;
 using System.ComponentModel;
+using ccm.entities.Entities.User;
 
 namespace ccm.api.Helper
 {
@@ -12,17 +13,17 @@ namespace ccm.api.Helper
     {
         private ApiSettings Settings;
         private readonly IMongoCollection<Administrator> administratorCollection;
-        private readonly IMongoCollection<User> userCollection;
+        private readonly IMongoCollection<UserProfile> userProfileCollection;
         private readonly IMongoCollection<UserTypes> userTypesCollection;
         List<string> SysAds = new List<string>();        
         private readonly FilterDefinitionBuilder<Administrator> administratorFilterBuilder = Builders<Administrator>.Filter;
-        private readonly FilterDefinitionBuilder<User> userFilterBuilder = Builders<User>.Filter;
+        private readonly FilterDefinitionBuilder<UserProfile> userFilterBuilder = Builders<UserProfile>.Filter;
         private readonly FilterDefinitionBuilder<UserTypes> userTypeFilterBuilder = Builders<UserTypes>.Filter;
         public DBSeeder(IMongoClient _mongoClient,DBSettings _dbSettings,ApiSettings _apiSettings)
         {
             IMongoDatabase db = _mongoClient.GetDatabase(_dbSettings.DbName);
             administratorCollection = db.GetCollection<Administrator>("Administrator"); 
-            userCollection  = db.GetCollection<User>("User"); 
+            userProfileCollection  = db.GetCollection<UserProfile>("UserProfile"); 
             userTypesCollection= db.GetCollection<UserTypes>("UserTypes"); 
             Settings = _apiSettings;
             using(StreamReader r = new StreamReader("sysad.json"))
@@ -161,7 +162,7 @@ namespace ccm.api.Helper
         public async Task<bool>  DoWeHaveAnAdmin()
         {
             var filter = userFilterBuilder.Where(ufb => ufb.UserType.Name == "Admin");
-            return await userCollection.Find(filter).FirstOrDefaultAsync() is null ? false : true;
+            return await userProfileCollection.Find(filter).FirstOrDefaultAsync() is null ? false : true;
         }
 
 
