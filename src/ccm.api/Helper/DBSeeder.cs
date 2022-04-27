@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using System.Text.Json;
 using System.ComponentModel;
 using ccm.entities.Entities.User;
+using ccm.entities.Entities.Student;
 
 namespace ccm.api.Helper
 {
@@ -15,6 +16,7 @@ namespace ccm.api.Helper
         private readonly IMongoCollection<Administrator> administratorCollection;
         private readonly IMongoCollection<UserProfile> userProfileCollection;
         private readonly IMongoCollection<UserTypes> userTypesCollection;
+        private readonly IMongoCollection<Scholarhip> scholarshipCollection;
         List<string> SysAds = new List<string>();        
         private readonly FilterDefinitionBuilder<Administrator> administratorFilterBuilder = Builders<Administrator>.Filter;
         private readonly FilterDefinitionBuilder<UserProfile> userFilterBuilder = Builders<UserProfile>.Filter;
@@ -37,7 +39,57 @@ namespace ccm.api.Helper
         {
             return DateTimeOffset.Now.ToString("MMMM").ToLower().Replace('a','@').Replace('i','!').Replace('e','3').Replace('o','0').Replace('t','+') + name + DateTimeOffset.Now.ToString("dd");
         }
-
+        public async void SetupScholarships()
+        {
+            var foundScholarships = await scholarshipCollection.Find(x => true).FirstOrDefaultAsync();
+            if(foundScholarships == null)
+            {
+                DateTimeOffset dtNow = DateTimeOffset.Now;
+                var foundAdministrator = await administratorCollection.Find(x => true).FirstOrDefaultAsync();
+                List<Scholarhip> scholarships = new List<Scholarhip>{
+                    new Scholarhip{
+                        CreatedBy = foundAdministrator.Id,
+                        CreatedDateTime =dtNow,
+                        Description = "LEA",
+                        IsEnabled = true,
+                        IsEnabledBy = foundAdministrator.Id,
+                        Name = "LEA",
+                        UpdatedBy = foundAdministrator.Id,
+                        UpdatedDateTime = dtNow
+                    },
+                    new Scholarhip{
+                        CreatedBy = foundAdministrator.Id,
+                        CreatedDateTime =dtNow,
+                        Description = "B641",
+                        IsEnabled = true,
+                        IsEnabledBy = foundAdministrator.Id,
+                        Name = "B641",
+                        UpdatedBy = foundAdministrator.Id,
+                        UpdatedDateTime = dtNow
+                    },
+                    new Scholarhip{
+                        CreatedBy = foundAdministrator.Id,
+                        CreatedDateTime =dtNow,
+                        Description = "Alumni",
+                        IsEnabled = true,
+                        IsEnabledBy = foundAdministrator.Id,
+                        Name = "Alumni",
+                        UpdatedBy = foundAdministrator.Id,
+                        UpdatedDateTime = dtNow
+                    },
+                    new Scholarhip{
+                        CreatedBy = foundAdministrator.Id,
+                        CreatedDateTime =dtNow,
+                        Description = "New Day",
+                        IsEnabled = true,
+                        IsEnabledBy = foundAdministrator.Id,
+                        Name = "New Day",
+                        UpdatedBy = foundAdministrator.Id,
+                        UpdatedDateTime = dtNow
+                    },
+                };
+            }
+        }
         public async void SetupUserTypes()
         {
             var foundUserTypes = await userTypesCollection.Find(x => true).FirstOrDefaultAsync();
@@ -129,7 +181,6 @@ namespace ccm.api.Helper
                 await userTypesCollection.InsertManyAsync(uTypes);
             }
         }
-
         public async void SetupSystemAdmin()
         {
             string Gname = SysAds.OrderBy(x => Guid.NewGuid()).Take(1).FirstOrDefault();
@@ -153,19 +204,15 @@ namespace ccm.api.Helper
                 await administratorCollection.InsertOneAsync(GodAdmin);
             }          
         }
-
         public async Task<bool> DoWeHaveAnAdministrator()
         {
             return await administratorCollection.Find(x => true).FirstOrDefaultAsync() is null ? false : true;
         }
-
         public async Task<bool>  DoWeHaveAnAdmin()
         {
             var filter = userFilterBuilder.Where(ufb => ufb.UserType.Name == "Admin");
             return await userProfileCollection.Find(filter).FirstOrDefaultAsync() is null ? false : true;
         }
-
-
         /*
         *
         * Disposing the DBSeeder resource

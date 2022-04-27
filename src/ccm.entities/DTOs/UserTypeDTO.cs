@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ccm.entities.DTOs
 {
-    public class UserTypesDTO
+    public class UserTypeDTO
     {
         public string Name {get;set;}
         public string Description {get;set;}
