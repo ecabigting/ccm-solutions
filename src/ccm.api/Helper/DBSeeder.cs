@@ -17,6 +17,7 @@ namespace ccm.api.Helper
         private readonly IMongoCollection<UserProfile> userProfileCollection;
         private readonly IMongoCollection<UserTypes> userTypesCollection;
         private readonly IMongoCollection<Scholarhip> scholarshipCollection;
+        private readonly IMongoCollection<StudentShift> studentshiftCollection;
         List<string> SysAds = new List<string>();        
         private readonly FilterDefinitionBuilder<Administrator> administratorFilterBuilder = Builders<Administrator>.Filter;
         private readonly FilterDefinitionBuilder<UserProfile> userFilterBuilder = Builders<UserProfile>.Filter;
@@ -26,7 +27,9 @@ namespace ccm.api.Helper
             IMongoDatabase db = _mongoClient.GetDatabase(_dbSettings.DbName);
             administratorCollection = db.GetCollection<Administrator>("Administrator"); 
             userProfileCollection  = db.GetCollection<UserProfile>("UserProfile"); 
-            userTypesCollection= db.GetCollection<UserTypes>("UserTypes"); 
+            userTypesCollection = db.GetCollection<UserTypes>("UserTypes"); 
+            scholarshipCollection = db.GetCollection<Scholarhip>("Scholarhip"); 
+            studentshiftCollection = db.GetCollection<StudentShift>("StudentShift"); 
             Settings = _apiSettings;
             using(StreamReader r = new StreamReader("sysad.json"))
             {
@@ -34,7 +37,6 @@ namespace ccm.api.Helper
                 SysAds = JsonSerializer.Deserialize<List<string>>(json);
             }
         }
-
         public string BuildInitKey(string name)
         {
             return DateTimeOffset.Now.ToString("MMMM").ToLower().Replace('a','@').Replace('i','!').Replace('e','3').Replace('o','0').Replace('t','+') + name + DateTimeOffset.Now.ToString("dd");
