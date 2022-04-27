@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ccm.entities.Entities.User
 {
-    public class User : Common
+    public class Profile : Common
     {
         [Required(ErrorMessage = "Field is required!")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Invalid Email!")]
