@@ -41,6 +41,48 @@ namespace ccm.api.Helper
         {
             return DateTimeOffset.Now.ToString("MMMM").ToLower().Replace('a','@').Replace('i','!').Replace('e','3').Replace('o','0').Replace('t','+') + name + DateTimeOffset.Now.ToString("dd");
         }
+        public async void SetupStudenShifts()
+        {
+            var foundStudentshift = await studentshiftCollection.Find(x => true).FirstOrDefaultAsync();
+            if(foundStudentshift == null)
+            {
+                DateTimeOffset dtNow = DateTimeOffset.Now;
+                var foundAdministrator = await administratorCollection.Find(x => true).FirstOrDefaultAsync();
+                List<StudentShift> studentShifts = new List<StudentShift>{
+                    new StudentShift{
+                        CreatedBy = foundAdministrator.Id,
+                        CreatedDateTime =dtNow,
+                        Description = "Morning",
+                        IsEnabled = true,
+                        IsEnabledBy = foundAdministrator.Id,
+                        Name = "Morning",
+                        UpdatedBy = foundAdministrator.Id,
+                        UpdatedDateTime = dtNow
+                    },
+                    new StudentShift{
+                        CreatedBy = foundAdministrator.Id,
+                        CreatedDateTime =dtNow,
+                        Description = "Afternoon",
+                        IsEnabled = true,
+                        IsEnabledBy = foundAdministrator.Id,
+                        Name = "Afternoon",
+                        UpdatedBy = foundAdministrator.Id,
+                        UpdatedDateTime = dtNow
+                    },
+                    new StudentShift{
+                        CreatedBy = foundAdministrator.Id,
+                        CreatedDateTime =dtNow,
+                        Description = "Evening",
+                        IsEnabled = true,
+                        IsEnabledBy = foundAdministrator.Id,
+                        Name = "Evening",
+                        UpdatedBy = foundAdministrator.Id,
+                        UpdatedDateTime = dtNow
+                    }
+                };
+                await studentshiftCollection.InsertManyAsync(studentShifts);
+            }
+        }
         public async void SetupScholarships()
         {
             var foundScholarships = await scholarshipCollection.Find(x => true).FirstOrDefaultAsync();
@@ -90,6 +132,7 @@ namespace ccm.api.Helper
                         UpdatedDateTime = dtNow
                     },
                 };
+                await scholarshipCollection.InsertManyAsync(scholarships);
             }
         }
         public async void SetupUserTypes()
