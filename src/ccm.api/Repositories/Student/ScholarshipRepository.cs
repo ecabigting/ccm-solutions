@@ -2,6 +2,7 @@ using System;
 using ccm.api.Settings;
 using ccm.entities.DTOs;
 using ccm.entities.Entities.Student;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ccm.api.Repositories.Student
@@ -18,29 +19,39 @@ namespace ccm.api.Repositories.Student
             scholarshipCollection = db.GetCollection<Scholarhip>("Scholarhip"); 
         }
 
-        public Task<Scholarhip> Add(Scholarhip scholarhip, Guid UserId)
+        public async Task<Scholarhip> Add(Scholarhip scholarhip, Guid UserId)
         {
-            throw new NotImplementedException();
+            await scholarshipCollection.InsertOneAsync(scholarhip);
+            return scholarhip;
         }
 
         public async Task<List<Scholarhip>> GetAll()
         {
-            return await scholarshipCollection.Find(x => true).ToListAsync();
+            return await scholarshipCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-        public Task<Scholarhip> GetById(Guid Id)
+        public async Task<Scholarhip> GetById(Guid Id)
         {
-            throw new NotImplementedException();
+            var scholarhipFilter = filterBuilder.Eq(i => i.Id,Id);
+            return await scholarshipCollection.Find(scholarhipFilter).SingleOrDefaultAsync();
         }
 
-        public Task<Scholarhip> UpdateScholarShip(Guid scholarshipId, Scholarhip scholarhip, Guid UserId)
+        public async Task<Scholarhip> UpdateScholarShip(Guid scholarshipId, Scholarhip scholarhip, Guid UserId)
         {
-            throw new NotImplementedException();
+            var scholarhipFilter = filterBuilder.Eq(i => i.Id,scholarshipId);
+            await scholarshipCollection.ReplaceOneAsync(scholarhipFilter,scholarhip);
+            return scholarhip;
         }
 
         public Task<Scholarhip> UpdateScholarShipStatus(Guid scholarshipId, bool status, Guid UserId)
         {
-            throw new NotImplementedException();
+            var scholarhipFilter = filterBuilder.Eq(i => i.Id,scholarshipId);
+            var foundScholarship = scholarshipCollection.Find(scholarhipFilter).SingleOrDefaultAsync();
+            if(foundScholarship != null)
+            {
+                foundScholarship
+            }
+            return null;
         }
     }
 }
