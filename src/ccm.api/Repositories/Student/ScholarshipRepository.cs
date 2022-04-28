@@ -1,5 +1,6 @@
 using System;
 using ccm.api.Settings;
+using ccm.entities.DTOs;
 using ccm.entities.Entities.Student;
 using MongoDB.Driver;
 
@@ -27,17 +28,17 @@ namespace ccm.api.Repositories.Student
             return await scholarshipCollection.Find(x => true).ToListAsync();
         }
 
-        public async Task<Scholarhip> GetById(Guid Id)
-        {
-            return await scholarshipCollection.Find(x => x.Id == Id).FirstOrDefaultAsync();
-        }
-
-        public Task<Scholarhip> UpdateScholarShip(Guid id, Scholarhip scholarhip, Guid UserId)
+        public Task<Scholarhip> GetById(Guid Id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Scholarhip> UpdateScholarShipStatus(Guid id, bool status, Guid UserId)
+        public Task<Scholarhip> UpdateScholarShip(Guid scholarshipId, Scholarhip scholarhip, Guid UserId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Scholarhip> UpdateScholarShipStatus(Guid scholarshipId, bool status, Guid UserId)
         {
             throw new NotImplementedException();
         }
