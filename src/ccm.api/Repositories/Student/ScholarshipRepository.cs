@@ -30,6 +30,11 @@ namespace ccm.api.Repositories.Student
             return await scholarshipCollection.Find(new BsonDocument()).ToListAsync();
         }
 
+        public async Task<List<Scholarhip>> GetAllEnabled()
+        {
+            return await scholarshipCollection.Find(s => s.IsEnabled == true).ToListAsync();
+        }
+
         public async Task<Scholarhip> GetById(Guid Id)
         {
             var scholarhipFilter = filterBuilder.Eq(i => i.Id,Id);
