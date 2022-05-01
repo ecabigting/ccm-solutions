@@ -131,6 +131,8 @@ void SeedDB()
     {
         Seeder.SetupSystemAdmin();
         Seeder.SetupUserTypes();
+        Seeder.SetupScholarships();
+        Seeder.SetupStudenShifts();
     }catch(Exception ex)
     {
         Console.WriteLine(ex.Message);
