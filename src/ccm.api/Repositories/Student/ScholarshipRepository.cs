@@ -43,15 +43,12 @@ namespace ccm.api.Repositories.Student
             return scholarhip;
         }
 
-        public Task<Scholarhip> UpdateScholarShipStatus(Guid scholarshipId, bool status, Guid UserId)
+        public async Task<Scholarhip> UpdateScholarShipStatus(Guid scholarshipId, Scholarhip updatedS, Guid UserId)
         {
-            var scholarhipFilter = filterBuilder.Eq(i => i.Id,scholarshipId);
-            var foundScholarship = scholarshipCollection.Find(scholarhipFilter).SingleOrDefaultAsync();
-            if(foundScholarship != null)
-            {
-                foundScholarship
-            }
-            return null;
+            var filter = filterBuilder.Eq(existingScholarship => existingScholarship.Id,scholarshipId);
+            await scholarshipCollection.ReplaceOneAsync(filter,updatedS);
+            return updatedS;
+
         }
     }
 }
