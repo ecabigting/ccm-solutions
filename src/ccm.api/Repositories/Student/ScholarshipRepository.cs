@@ -9,46 +9,46 @@ namespace ccm.api.Repositories.Student
 {
     public class ScholarshipRepository : IScholarshipRepository
     {
-        private readonly IMongoCollection<Scholaship> scholarshipCollection;
-        private readonly FilterDefinitionBuilder<Scholaship> filterBuilder = Builders<Scholaship>.Filter;
+        private readonly IMongoCollection<Scholarship> scholarshipCollection;
+        private readonly FilterDefinitionBuilder<Scholarship> filterBuilder = Builders<Scholarship>.Filter;
 
         public ScholarshipRepository(IMongoClient _mongoClient,
         DBSettings _dbSettings)
         {
             IMongoDatabase db = _mongoClient.GetDatabase(_dbSettings.DbName);
-            scholarshipCollection = db.GetCollection<Scholaship>("Scholaship"); 
+            scholarshipCollection = db.GetCollection<Scholarship>("Scholarship"); 
         }
 
-        public async Task<Scholaship> Add(Scholaship scholaship, Guid UserId)
+        public async Task<Scholarship> Add(Scholarship scholarship, Guid UserId)
         {
-            await scholarshipCollection.InsertOneAsync(scholaship);
-            return scholaship;
+            await scholarshipCollection.InsertOneAsync(scholarship);
+            return scholarship;
         }
 
-        public async Task<List<Scholaship>> GetAll()
+        public async Task<List<Scholarship>> GetAll()
         {
             return await scholarshipCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-        public async Task<List<Scholaship>> GetAllEnabled()
+        public async Task<List<Scholarship>> GetAllEnabled()
         {
             return await scholarshipCollection.Find(s => s.IsEnabled == true).ToListAsync();
         }
 
-        public async Task<Scholaship> GetById(Guid Id)
+        public async Task<Scholarship> GetById(Guid Id)
         {
             var scholashipFilter = filterBuilder.Eq(i => i.Id,Id);
             return await scholarshipCollection.Find(scholashipFilter).SingleOrDefaultAsync();
         }
 
-        public async Task<Scholaship> UpdateScholarShip(Guid scholarshipId, Scholaship scholaship, Guid UserId)
+        public async Task<Scholarship> UpdateScholarShip(Guid scholarshipId, Scholarship scholaship, Guid UserId)
         {
             var scholashipFilter = filterBuilder.Eq(i => i.Id,scholarshipId);
             await scholarshipCollection.ReplaceOneAsync(scholashipFilter,scholaship);
             return scholaship;
         }
 
-        public async Task<Scholaship> UpdateScholarShipStatus(Guid scholarshipId, Scholaship updatedS, Guid UserId)
+        public async Task<Scholarship> UpdateScholarShipStatus(Guid scholarshipId, Scholarship updatedS, Guid UserId)
         {
             var filter = filterBuilder.Eq(existingScholarship => existingScholarship.Id,scholarshipId);
             await scholarshipCollection.ReplaceOneAsync(filter,updatedS);
