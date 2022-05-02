@@ -8,8 +8,8 @@ namespace ccm.api.Repositories.Student
         Task<List<Scholarhip>> GetAll();
         Task<List<Scholarhip>> GetAllEnabled();
         Task<Scholarhip> GetById(Guid Id);
-        Task<Scholarhip> UpdateScholarShip(Guid scholarshipId,Scholarhip scholarhip,Guid UserId);
+        Task<Scholarhip> UpdateScholarShip(Guid scholarshipId,Scholarhip Scholarhip,Guid UserId);
         Task<Scholarhip> UpdateScholarShipStatus(Guid scholarshipId,Scholarhip updatedS,Guid UserId);
-        Task<Scholarhip> Add(Scholarhip scholarhip,Guid UserId);
+        Task<Scholarhip> Add(Scholarhip Scholarhip,Guid UserId);
     }
 }
