@@ -3,6 +3,7 @@ using System;
 using ccm.api.Repositories.Student;
 using Microsoft.AspNetCore.Mvc;
 using ccm.entities.DTOs;
+using AutoMapper;
 
 namespace ccm.api.Controllers
 {
@@ -11,15 +12,17 @@ namespace ccm.api.Controllers
     public class ScholarshipController : ApiBaseController
     {
         private readonly IScholarshipRepository repo;
-        public ScholarshipController(IScholarshipRepository _repo)
+        private readonly IMapper mapper;
+        public ScholarshipController(IScholarshipRepository _repo,IMapper _mapper)
         {
             repo = _repo;
+            mapper = _mapper;
         }
-
+    
         [HttpGet]
-        public async Task<IEnumerable<ScholarshipDTO>> GetAllEnabled()
+        public async Task<IEnumerable<ScholarshipDTO>> GetAllEnabled() // to do add user role validation
         {
-            return await repo.GetAllEnabled();
+            return mapper.Map<IEnumerable<ScholarshipDTO>>(await repo.GetAllEnabled());
         }
     }
 }

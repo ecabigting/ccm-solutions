@@ -1,4 +1,5 @@
 using System.Text;
+using AutoMapper;
 using ccm.api.Helper;
 using ccm.api.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -69,7 +70,12 @@ builder.Services.AddSingleton(apiSettings);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+//
+// Add AutoMapper to the services
+var mapperConfig = new MapperConfiguration(cfg => { cfg.AddProfile(new AutoMapperProfile()); });
+var mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 //
 // Add Swagger Options 
