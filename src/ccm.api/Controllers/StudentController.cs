@@ -8,11 +8,9 @@ namespace ccm.api.Controllers
     [Route("api/[controller]")]
     public class StudentController : ApiBaseController
     {
-        private readonly IScholarshipRepository repo;
-
-        public StudentController(IScholarshipRepository _repo)
+        public StudentController()
         {
-            repo = _repo;
+            
         }
     }
 }

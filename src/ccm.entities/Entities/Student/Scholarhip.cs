@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ccm.entities.Entities.Student
 {
-    public class Scholarhip : Common
+    public class Scholarship : Common
     {
         [Required(ErrorMessage = "Name is required!")]
         public string Name {get;set;}
