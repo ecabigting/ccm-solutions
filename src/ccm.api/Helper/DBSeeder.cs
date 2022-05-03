@@ -16,7 +16,7 @@ namespace ccm.api.Helper
         private readonly IMongoCollection<Administrator> administratorCollection;
         private readonly IMongoCollection<UserProfile> userProfileCollection;
         private readonly IMongoCollection<UserTypes> userTypesCollection;
-        private readonly IMongoCollection<Scholarship> scholarshipCollection;
+        private readonly IMongoCollection<StudentScholarship> scholarshipCollection;
         private readonly IMongoCollection<StudentShift> studentshiftCollection;
         List<string> SysAds = new List<string>();        
         private readonly FilterDefinitionBuilder<Administrator> administratorFilterBuilder = Builders<Administrator>.Filter;
@@ -28,7 +28,7 @@ namespace ccm.api.Helper
             administratorCollection = db.GetCollection<Administrator>("Administrator"); 
             userProfileCollection  = db.GetCollection<UserProfile>("UserProfile"); 
             userTypesCollection = db.GetCollection<UserTypes>("UserTypes"); 
-            scholarshipCollection = db.GetCollection<Scholarship>("Scholarship"); 
+            scholarshipCollection = db.GetCollection<StudentScholarship>("StudentScholarship"); 
             studentshiftCollection = db.GetCollection<StudentShift>("StudentShift"); 
             Settings = _apiSettings;
             using(StreamReader r = new StreamReader("sysad.json"))
@@ -90,8 +90,8 @@ namespace ccm.api.Helper
             {
                 DateTimeOffset dtNow = DateTimeOffset.Now;
                 var foundAdministrator = await administratorCollection.Find(x => true).FirstOrDefaultAsync();
-                List<Scholarship> scholarships = new List<Scholarship>{
-                    new Scholarship{
+                List<StudentScholarship> scholarships = new List<StudentScholarship>{
+                    new StudentScholarship{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime =dtNow,
                         Description = "LEA",
@@ -101,7 +101,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = dtNow
                     },
-                    new Scholarship{
+                    new StudentScholarship{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime =dtNow,
                         Description = "B641",
@@ -111,7 +111,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = dtNow
                     },
-                    new Scholarship{
+                    new StudentScholarship{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime =dtNow,
                         Description = "Alumni",
@@ -121,7 +121,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = dtNow
                     },
-                    new Scholarship{
+                    new StudentScholarship{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime =dtNow,
                         Description = "New Day",
