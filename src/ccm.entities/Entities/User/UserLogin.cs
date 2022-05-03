@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using ccm.entities.DTOs;
+using ccm.entities.DTOs.User;
 
 namespace ccm.entities.Entities.User
 {

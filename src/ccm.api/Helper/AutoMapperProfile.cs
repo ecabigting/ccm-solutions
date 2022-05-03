@@ -1,7 +1,6 @@
 using System;
 using AutoMapper;
-using ccm.entities.DTOs;
-using ccm.entities.Entities.Student;
+using ccm.entities.DTOs.Student;
 
 namespace ccm.api.Helper
 {

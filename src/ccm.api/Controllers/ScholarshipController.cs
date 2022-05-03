@@ -2,8 +2,8 @@ using System.Collections.ObjectModel;
 using System;
 using ccm.api.Repositories.Student;
 using Microsoft.AspNetCore.Mvc;
-using ccm.entities.DTOs;
 using AutoMapper;
+using ccm.entities.DTOs.Student;
 
 namespace ccm.api.Controllers
 {
