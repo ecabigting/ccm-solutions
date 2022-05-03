@@ -1,19 +1,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using ccm.entities.DTOs.User;
 
-namespace ccm.entities.Entities.User
+namespace ccm.entities.DTOs.User
 {
-    public class UserLogin : Common
+    public class UserLoginDTO
     {
         [Required(ErrorMessage = "Field is required!")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Invalid Email!")]
         public string Email {get;set;}
         [Required(ErrorMessage = "Field is Required!")]
-        [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$", ErrorMessage = "Invalid password!")]
+        [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Must contain atleast one upper case, one lower case, one symbol, and 8 characters long")]
         public string Password {get;set;}
-        [Required(ErrorMessage = "Field is Required!")]
-        public UserTypeDTO Type {get;set;}
-        public Guid UserID {get;set;}
     }
 }

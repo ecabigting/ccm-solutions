@@ -14,20 +14,20 @@ namespace ccm.api.Helper
     {
         private ApiSettings Settings;
         private readonly IMongoCollection<Administrator> administratorCollection;
-        private readonly IMongoCollection<UserProfile> userProfileCollection;
-        private readonly IMongoCollection<UserTypes> userTypesCollection;
+        private readonly IMongoCollection<User> userCollection;
+        private readonly IMongoCollection<UserType> userTypesCollection;
         private readonly IMongoCollection<StudentScholarship> scholarshipCollection;
         private readonly IMongoCollection<StudentShift> studentshiftCollection;
         List<string> SysAds = new List<string>();        
         private readonly FilterDefinitionBuilder<Administrator> administratorFilterBuilder = Builders<Administrator>.Filter;
-        private readonly FilterDefinitionBuilder<UserProfile> userFilterBuilder = Builders<UserProfile>.Filter;
-        private readonly FilterDefinitionBuilder<UserTypes> userTypeFilterBuilder = Builders<UserTypes>.Filter;
+        private readonly FilterDefinitionBuilder<User> userFilterBuilder = Builders<User>.Filter;
+        private readonly FilterDefinitionBuilder<UserType> userTypeFilterBuilder = Builders<UserType>.Filter;
         public DBSeeder(IMongoClient _mongoClient,DBSettings _dbSettings,ApiSettings _apiSettings)
         {
             IMongoDatabase db = _mongoClient.GetDatabase(_dbSettings.DbName);
             administratorCollection = db.GetCollection<Administrator>("Administrator"); 
-            userProfileCollection  = db.GetCollection<UserProfile>("UserProfile"); 
-            userTypesCollection = db.GetCollection<UserTypes>("UserTypes"); 
+            userCollection  = db.GetCollection<User>("User"); 
+            userTypesCollection = db.GetCollection<UserType>("UserType"); 
             scholarshipCollection = db.GetCollection<StudentScholarship>("StudentScholarship"); 
             studentshiftCollection = db.GetCollection<StudentShift>("StudentShift"); 
             Settings = _apiSettings;
@@ -141,8 +141,8 @@ namespace ccm.api.Helper
             if(foundUserTypes == null)
             {
                 var foundAdministrator = await administratorCollection.Find(x => true).FirstOrDefaultAsync();
-                List<UserTypes> uTypes = new List<UserTypes>{
-                    new UserTypes{
+                List<UserType> uTypes = new List<UserType>{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Admin has full system access",
@@ -152,7 +152,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = DateTimeOffset.UtcNow
                     },
-                    new UserTypes{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Student has access to courses and classes",
@@ -162,7 +162,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = DateTimeOffset.UtcNow
                     },
-                    new UserTypes{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Teachers has full courses, classes and students",
@@ -172,7 +172,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = DateTimeOffset.UtcNow,
                     },
-                    new UserTypes{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Admin has access to courses, classes, teachers, and students",
@@ -182,7 +182,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = DateTimeOffset.UtcNow
                     },
-                    new UserTypes{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Finance Director",
@@ -192,7 +192,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = DateTimeOffset.UtcNow
                     },
-                    new UserTypes{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Accountant",
@@ -202,7 +202,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = DateTimeOffset.UtcNow
                     },
-                    new UserTypes{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Accounting Clerk",
@@ -212,7 +212,7 @@ namespace ccm.api.Helper
                         UpdatedBy = foundAdministrator.Id,
                         UpdatedDateTime = DateTimeOffset.UtcNow
                     },
-                    new UserTypes{
+                    new UserType{
                         CreatedBy = foundAdministrator.Id,
                         CreatedDateTime = DateTimeOffset.UtcNow,
                         Description = "Finance Director",
@@ -249,15 +249,7 @@ namespace ccm.api.Helper
                 await administratorCollection.InsertOneAsync(GodAdmin);
             }          
         }
-        public async Task<bool> DoWeHaveAnAdministrator()
-        {
-            return await administratorCollection.Find(x => true).FirstOrDefaultAsync() is null ? false : true;
-        }
-        public async Task<bool>  DoWeHaveAnAdmin()
-        {
-            var filter = userFilterBuilder.Where(ufb => ufb.UserType.Name == "Admin");
-            return await userProfileCollection.Find(filter).FirstOrDefaultAsync() is null ? false : true;
-        }
+
         /*
         *
         * Disposing the DBSeeder resource
